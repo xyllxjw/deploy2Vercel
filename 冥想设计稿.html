@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冥想App原型设计</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#EEF7FE',
+                            100: '#D5E8FC',
+                            200: '#AAD1F9',
+                            300: '#7FB9F5',
+                            400: '#4A90E2',
+                            500: '#2A6CB0',
+                            600: '#0052D4',
+                            700: '#004BB9',
+                            800: '#003C92',
+                            900: '#002A69',
+                        },
+                        secondary: {
+                            light: '#F5EEF8',
+                            DEFAULT: '#A18CD1',
+                            dark: '#6B5B95',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        .iphone-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9/16;
+            background-color: white;
+            border-radius: 40px;
+            box-shadow: 0 0 0 2px #e0e0e0, 0 5px 20px rgba(0,0,0,0.1);
+            padding: 12px;
+            overflow: hidden;
+        }
+        
+        .iphone-notch {
+            position: absolute;
+            width: 50%;
+            height: 30px;
+            background-color: #000;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 10;
+        }
+        
+        .iphone-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            background-color: #f8f8f8;
+        }
+        
+        .status-bar {
+            height: 40px;
+            background-color: transparent;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            font-size: 12px;
+            color: #000;
+            position: relative;
+            z-index: 5;
+        }
+
+        .tab-bar {
+            height: 70px;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #f0f0f0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .app-content {
+            height: calc(100% - 110px);
+            overflow-y: auto;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold mb-2 text-gray-900">冥想App原型设计</h1>
+            <p class="text-lg text-gray-600">基于用户需求和场景分析的iOS冥想应用原型</p>
+        </header>
+
+        <section class="bg-white rounded-xl p-6 shadow-sm mb-8">
+            <h2 class="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 text-gray-800">1. 产品需求分析</h2>
+            <p class="mb-4">通过对潜在用户群体的研究和市场分析，我们发现以下用户需求：</p>
+            <ul class="list-disc pl-6 space-y-2 mb-4">
+                <li>初学者需要引导式冥想课程，帮助他们学习基础技巧</li>
+                <li>有经验的用户需要丰富多样的冥想内容，满足不同场景需求（睡眠、减压、专注等）</li>
+                <li>用户希望记录自己的冥想历程，并看到进步</li>
+                <li>用户需要个性化推荐，适合自己当前状态的冥想内容</li>
+                <li>用户希望在忙碌的日常中收到提醒，培养冥想习惯</li>
+                <li>用户需要简单便捷的登录方式，快速开始冥想体验</li>
+                <li>用户喜欢有舒适且沉浸式的UI/UX体验，帮助他们更好地进入冥想状态</li>
+                <li>用户需要灵活设置冥想时长和提醒</li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-xl p-6 shadow-sm mb-8">
+            <h2 class="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 text-gray-800">2. 产品功能规划</h2>
+            
+            <h3 class="text-xl font-semibold mt-6 mb-3 text-gray-700">2.1 核心功能</h3>
+            <ul class="list-disc pl-6 space-y-2">
+                <li><span class="font-medium">用户账户系统</span>：快速登录和个性化体验</li>
+                <li><span class="font-medium">冥想库</span>：多种类型的引导式冥想内容</li>
+                <li><span class="font-medium">个性化推荐</span>：根据用户习惯、时间和情绪状态推荐冥想</li>
+                <li><span class="font-medium">冥想计时器</span>：自定义时长的纯音乐/自然音冥想</li>
+                <li><span class="font-medium">进度追踪</span>：记录冥想时间、频率和连续打卡</li>
+                <li><span class="font-medium">睡眠辅助</span>：专为入睡设计的冥想内容</li>
+            </ul>
+            
+            <h3 class="text-xl font-semibold mt-6 mb-3 text-gray-700">2.2 差异化功能</h3>
+            <ul class="list-disc pl-6 space-y-2">
+                <li><span class="font-medium">情绪检测</span>：进入App时询问当前情绪，提供针对性内容</li>
+                <li><span class="font-medium">场景化推荐</span>：根据时间、位置提供合适的冥想内容</li>
+                <li><span class="font-medium">社区功能</span>：与志同道合的用户分享冥想体验</li>
+                <li><span class="font-medium">AI语音定制</span>：可选择不同音色和语速的引导语音</li>
+                <li><span class="font-medium">冥想好友</span>：与朋友共同建立冥想习惯，互相鼓励</li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-xl p-6 shadow-sm mb-8">
+            <h2 class="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 text-gray-800">3. 页面结构规划</h2>
+            <ul class="list-disc pl-6 space-y-2">
+                <li><span class="font-medium">登录/注册页</span>：用户账户管理</li>
+                <li><span class="font-medium">欢迎/引导页</span>：首次使用的引导流程</li>
+                <li><span class="font-medium">首页</span>：个性化推荐、每日推荐、快速访问</li>
+                <li><span class="font-medium">冥想库</span>：分类浏览所有冥想内容</li>
+                <li><span class="font-medium">冥想播放页</span>：播放控制、进度显示</li>
+                <li><span class="font-medium">个人中心</span>：冥想统计、设置、个人信息</li>
+                <li><span class="font-medium">情绪检测</span>：记录和选择当前情绪状态</li>
+                <li><span class="font-medium">社区</span>：分享和查看冥想体验</li>
+                <li><span class="font-medium">设置</span>：通知设置、声音设置、主题等</li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-xl p-6 shadow-sm mb-8">
+            <h2 class="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 text-gray-800">4. UI设计风格</h2>
+            <p class="mb-4">基于冥想应用的特性和目标用户群体，我们选择以下设计风格：</p>
+            <ul class="list-disc pl-6 space-y-2">
+                <li><span class="font-medium">色彩方案</span>：以蓝色为主色调，象征平静与宁静；辅以柔和的渐变和自然色调</li>
+                <li><span class="font-medium">字体</span>：简洁现代的无衬线字体，提高可读性</li>
+                <li><span class="font-medium">圆角设计</span>：所有UI元素采用圆角设计，营造柔和感</li>
+                <li><span class="font-medium">微动效</span>：适度的动画效果，帮助用户进入放松状态</li>
+                <li><span class="font-medium">空间感</span>：充分利用留白，避免界面拥挤</li>
+                <li><span class="font-medium">插图风格</span>：简约线条插图，主题围绕自然和冥想姿态</li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-xl p-6 shadow-sm mb-8">
+            <h2 class="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 text-gray-800">5. 原型页面展示</h2>
+            <p class="mb-6">以下是基于上述分析和规划设计的主要页面原型：</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
+                <!-- 登录页 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="w-full">
+                        <div class="iphone-frame">
+                            <div class="iphone-notch"></div>
+                            <div class="iphone-screen" style="background-image: url('https://images.unsplash.com/photo-1609090293660-aeeb50b0a6cb?q=80&w=400&auto=format&fit=crop&crop=focalpoint&fp-y=0.4'); background-size: cover; background-position: center;">
+                                <div class="status-bar">
+                                    <span class="text-white">9:41</span>
+                                    <span class="text-white">••• 5G</span>
+                                </div>
+                                <div class="h-full flex flex-col justify-end pb-10">
+                                    <div class="p-6 bg-white/90 backdrop-blur-sm rounded-t-3xl">
+                                        <h2 class="text-2xl font-bold mb-2 text-gray-800">欢迎来到静心</h2>
+                                        <p class="text-gray-600 mb-6">开始你的冥想之旅，找回内心的平静</p>
+                                        
+                                        <div class="space-y-4 mb-6">
+                                            <div class="border border-gray-300 rounded-xl overflow-hidden">
+                                                <input type="email" placeholder="电子邮箱" class="w-full p-3 outline-none focus:ring-2 focus:ring-primary-400">
+                                            </div>
+                                            <div class="border border-gray-300 rounded-xl overflow-hidden">
+                                                <input type="password" placeholder="密码" class="w-full p-3 outline-none focus:ring-2 focus:ring-primary-400">
+                                            </div>
+                                        </div>
+                                        
+                                        <button class="w-full py-3 bg-primary-600 text-white font-medium rounded-xl mb-4">登录</button>
+                                        
+                                        <div class="flex items-center my-6">
+                                            <div class="flex-1 h-px bg-gray-300"></div>
+                                            <p class="px-4 text-sm text-gray-500">或</p>
+                                            <div class="flex-1 h-px bg-gray-300"></div>
+                                        </div>
+                                        
+                                        <div class="flex justify-center space-x-4 mb-4">
+                                            <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                                                <div class="w-5 h-5 bg-gray-700 rounded-full"></div>
+                                            </div>
+                                            <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                                                <div class="w-5 h-5 bg-blue-500 rounded-full"></div>
+                                            </div>
+                                            <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                                                <div class="w-5 h-5 bg-green-500 rounded-full"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <p class="text-center text-gray-600 text-sm">
+                                            还没有账号？ <a href="#" class="text-primary-600 font-medium">立即注册</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="font-semibold text-lg mb-1">登录页</h3>
+                        <p class="text-gray-600 text-sm">简洁的登录界面，支持多种登录方式</p>
+                    </div>
+                </div>
+
+                <!-- 注册页 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="w-full">
+                        <div class="iphone-frame">
+                            <div class="iphone-notch"></div>
+                            <div class="iphone-screen" style="background-image: url('https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?q=80&w=400&auto=format&fit=crop&crop=focalpoint&fp-y=0.6'); background-size: cover; background-position: center;">
+                                <div class="status-bar">
+                                    <span class="text-white">9:41</span>
+                                    <span class="text-white">••• 5G</span>
+                                </div>
+                                <div class="h-full flex flex-col justify-end pb-10">
+                                    <div class="p-6 bg-white/90 backdrop-blur-sm rounded-t-3xl">
+                                        <h2 class="text-2xl font-bold mb-2 text-gray-800">创建账号</h2>
+                                        <p class="text-gray-600 mb-6">加入静心，开启你的冥想旅程</p>
+                                        
+                                        <div class="space-y-4 mb-6">
+                                            <div class="border border-gray-300 rounded-xl overflow-hidden">
+                                                <input type="text" placeholder="全名" class="w-full p-3 outline-none focus:ring-2 focus:ring-primary-400">
+                                            </div>
+                                            <div class="border border-gray-300 rounded-xl overflow-hidden">
+                                                <input type="email" placeholder="电子邮箱" class="w-full p-3 outline-none focus:ring-2 focus:ring-primary-400">
+                                            </div>
+                                            <div class="border border-gray-300 rounded-xl overflow-hidden">
+                                                <input type="password" placeholder="密码" class="w-full p-3 outline-none focus:ring-2 focus:ring-primary-400">
+                                            </div>
+                                        </div>
+                                        
+                                        <button class="w-full py-3 bg-primary-600 text-white font-medium rounded-xl mb-4">注册</button>
+                                        
+                                        <p class="text-xs text-gray-500 mb-6">
+                                            点击注册，即表示您同意我们的 <a href="#" class="text-primary-600">服务条款</a> 和 <a href="#" class="text-primary-600">隐私政策</a>
+                                        </p>
+                                        
+                                        <p class="text-center text-gray-600 text-sm">
+                                            已有账号？ <a href="#" class="text-primary-600 font-medium">登录</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="font-semibold text-lg mb-1">注册页</h3>
+                        <p class="text-gray-600 text-sm">简单的注册流程，收集必要的用户信息</p>
+                    </div>
+                </div>
+
+                <!-- 欢迎页 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="w-full">
+                        <div class="iphone-frame">
+                            <div class="iphone-notch"></div>
+                            <div class="iphone-screen bg-gradient-to-br from-primary-500 to-primary-700">
+                                <div class="status-bar">
+                                    <span class="text-white">9:41</span>
+                                    <span class="text-white">••• 5G</span>
+                                </div>
+                                <div class="h-full flex flex-col justify-center items-center p-8 text-center">
+                                    <div class="w-28 h-28 bg-white rounded-full mb-10 flex items-center justify-center">
+                                        <div class="w-16 h-16 bg-gradient-to-r from-primary-400 to-primary-600 rounded-full"></div>
+                                    </div>
+                                    <h2 class="text-3xl font-bold mb-4 text-white">静心</h2>
+                                    <p class="text-white/90 mb-10">
+                                        发现内心的平静，每天只需几分钟
+                                    </p>
+                                    <button class="w-full py-3 bg-white text-primary-600 font-medium rounded-xl mb-4">
+                                        开始体验
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="font-semibold text-lg mb-1">欢迎页</h3>
+                        <p class="text-gray-600 text-sm">简洁明了地传达应用价值主张，吸引用户开始使用</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-xl p-6 shadow-sm mb-8">
+            <h2 class="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 text-gray-800">6. 更多关键页面</h2>
+            <p class="mb-6">以下展示应用的核心功能页面，包括情绪选择、首页及冥想详情页：</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
+                <!-- 情绪选择页 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="w-full">
+                        <div class="iphone-frame">
+                            <div class="iphone-notch"></div>
+                            <div class="iphone-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+                                <div class="status-bar">
+                                    <span class="text-gray-800">9:41</span>
+                                    <span class="text-gray-800">••• 5G</span>
+                                </div>
+                                <div class="h-full p-6 flex flex-col">
+                                    <h2 class="text-2xl font-bold mb-2 text-gray-800">你今天感觉如何？</h2>
+                                    <p class="text-gray-600 mb-8">选择当前的情绪状态，我们将为你推荐合适的冥想内容</p>
+                                    
+                                    <div class="grid grid-cols-2 gap-4 mb-6">
+                                        <div class="bg-white rounded-xl p-4 shadow-sm flex flex-col items-center transition-all hover:shadow-md cursor-pointer">
+                                            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-2">
+                                                <div class="w-6 h-6 bg-yellow-400 rounded-full"></div>
+                                            </div>
+                                            <span class="font-medium">平静</span>
+                                        </div>
+                                        <div class="bg-white rounded-xl p-4 shadow-sm flex flex-col items-center transition-all hover:shadow-md cursor-pointer">
+                                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
+                                                <div class="w-6 h-6 bg-blue-400 rounded-full"></div>
+                                            </div>
+                                            <span class="font-medium">疲惫</span>
+                                        </div>
+                                        <div class="bg-white rounded-xl p-4 shadow-sm flex flex-col items-center transition-all hover:shadow-md cursor-pointer">
+                                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-2">
+                                                <div class="w-6 h-6 bg-red-400 rounded-full"></div>
+                                            </div>
+                                            <span class="font-medium">焦虑</span>
+                                        </div>
+                                        <div class="bg-white rounded-xl p-4 shadow-sm flex flex-col items-center transition-all hover:shadow-md cursor-pointer">
+                                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-2">
+                                                <div class="w-6 h-6 bg-green-400 rounded-full"></div>
+                                            </div>
+                                            <span class="font-medium">快乐</span>
+                                        </div>
+                                        <div class="bg-white rounded-xl p-4 shadow-sm flex flex-col items-center transition-all hover:shadow-md cursor-pointer">
+                                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-2">
+                                                <div class="w-6 h-6 bg-purple-400 rounded-full"></div>
+                                            </div>
+                                            <span class="font-medium">烦躁</span>
+                                        </div>
+                                        <div class="bg-white rounded-xl p-4 shadow-sm flex flex-col items-center transition-all hover:shadow-md cursor-pointer">
+                                            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+                                                <div class="w-6 h-6 bg-gray-400 rounded-full"></div>
+                                            </div>
+                                            <span class="font-medium">其他</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="mt-auto w-full py-3 bg-primary-600 text-white font-medium rounded-xl">
+                                        继续
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="font-semibold text-lg mb-1">情绪选择页</h3>
+                        <p class="text-gray-600 text-sm">基于用户当前情绪状态，提供个性化冥想推荐</p>
+                    </div>
+                </div>
+
+                <!-- 首页 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="w-full">
+                        <div class="iphone-frame">
+                            <div class="iphone-notch"></div>
+                            <div class="iphone-screen bg-gray-50">
+                                <div class="status-bar">
+                                    <span class="text-gray-800">9:41</span>
+                                    <span class="text-gray-800">••• 5G</span>
+                                </div>
+                                <div class="app-content overflow-auto">
+                                    <div class="flex justify-between items-center mb-6">
+                                        <div>
+                                            <h2 class="text-2xl font-bold text-gray-800">早上好，李明</h2>
+                                            <p class="text-gray-600">开始今天的冥想吧</p>
+                                        </div>
+                                        <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                                    </div>
+                                    
+                                    <!-- 今日推荐 -->
+                                    <div class="mb-6">
+                                        <h3 class="text-lg font-semibold mb-3">今日推荐</h3>
+                                        <div class="bg-white rounded-xl overflow-hidden shadow-sm relative h-40">
+                                            <div class="absolute inset-0 bg-gradient-to-r from-primary-600/80 to-primary-700/80"></div>
+                                            <div class="absolute inset-0 p-4 flex flex-col justify-between">
+                                                <div>
+                                                    <span class="text-xs font-medium px-2 py-1 bg-white/20 rounded-full text-white">10分钟</span>
+                                                    <h4 class="text-white text-xl font-bold mt-2">专注冥想</h4>
+                                                    <p class="text-white/90 text-sm">提升注意力，减少分心，增强工作效率</p>
+                                                </div>
+                                                <button class="bg-white text-primary-600 py-2 px-4 rounded-lg font-medium self-start">
+                                                    开始冥想
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 分类快速访问 -->
+                                    <div class="mb-6">
+                                        <div class="flex justify-between items-center mb-3">
+                                            <h3 class="text-lg font-semibold">探索冥想</h3>
+                                            <a href="#" class="text-primary-600 text-sm">查看全部</a>
+                                        </div>
+                                        <div class="grid grid-cols-4 gap-3">
+                                            <div class="flex flex-col items-center">
+                                                <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-1">
+                                                    <div class="w-7 h-7 bg-blue-500 rounded-lg"></div>
+                                                </div>
+                                                <span class="text-xs text-center">减压</span>
+                                            </div>
+                                            <div class="flex flex-col items-center">
+                                                <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-1">
+                                                    <div class="w-7 h-7 bg-purple-500 rounded-lg"></div>
+                                                </div>
+                                                <span class="text-xs text-center">睡眠</span>
+                                            </div>
+                                            <div class="flex flex-col items-center">
+                                                <div class="w-14 h-14 bg-yellow-100 rounded-xl flex items-center justify-center mb-1">
+                                                    <div class="w-7 h-7 bg-yellow-500 rounded-lg"></div>
+                                                </div>
+                                                <span class="text-xs text-center">专注</span>
+                                            </div>
+                                            <div class="flex flex-col items-center">
+                                                <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-1">
+                                                    <div class="w-7 h-7 bg-green-500 rounded-lg"></div>
+                                                </div>
+                                                <span class="text-xs text-center">更多</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 最近练习 -->
+                                    <div class="mb-6">
+                                        <h3 class="text-lg font-semibold mb-3">最近练习</h3>
+                                        <div class="space-y-3">
+                                            <div class="bg-white p-3 rounded-xl shadow-sm flex items-center">
+                                                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-6 h-6 bg-indigo-500 rounded"></div>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <h4 class="font-medium text-gray-800">午间放松</h4>
+                                                    <p class="text-xs text-gray-500">5分钟 · 昨天</p>
+                                                </div>
+                                                <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                                                    <div class="w-4 h-4 border-l-2 border-t-2 border-gray-600 transform rotate-135"></div>
+                                                </div>
+                                            </div>
+                                            <div class="bg-white p-3 rounded-xl shadow-sm flex items-center">
+                                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-6 h-6 bg-blue-500 rounded"></div>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <h4 class="font-medium text-gray-800">深度睡眠</h4>
+                                                    <p class="text-xs text-gray-500">15分钟 · 2天前</p>
+                                                </div>
+                                                <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                                                    <div class="w-4 h-4 border-l-2 border-t-2 border-gray-600 transform rotate-135"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 统计卡片 -->
+                                    <div class="mb-10">
+                                        <div class="flex justify-between items-center mb-3">
+                                            <h3 class="text-lg font-semibold">统计</h3>
+                                            <a href="#" class="text-primary-600 text-sm">详情</a>
+                                        </div>
+                                        <div class="bg-white p-4 rounded-xl shadow-sm">
+                                            <div class="flex justify-between mb-4">
+                                                <div class="text-center">
+                                                    <h4 class="text-2xl font-bold text-gray-800">7</h4>
+                                                    <p class="text-xs text-gray-500">本周冥想</p>
+                                                </div>
+                                                <div class="text-center">
+                                                    <h4 class="text-2xl font-bold text-gray-800">85</h4>
+                                                    <p class="text-xs text-gray-500">总冥想分钟</p>
+                                                </div>
+                                                <div class="text-center">
+                                                    <h4 class="text-2xl font-bold text-gray-800">5</h4>
+                                                    <p class="text-xs text-gray-500">连续天数</p>
+                                                </div>
+                                            </div>
+                                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                                <div class="h-full bg-primary-500 rounded-full" style="width: 70%"></div>
+                                            </div>
+                                            <p class="text-xs text-gray-500 text-center mt-2">本周目标完成度: 70%</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-bar">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-6 h-6 bg-primary-500 rounded-lg mb-1"></div>
+                                        <span class="text-xs text-primary-600 font-medium">首页</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-6 h-6 bg-gray-300 rounded-lg mb-1"></div>
+                                        <span class="text-xs text-gray-400">探索</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-6 h-6 bg-gray-300 rounded-lg mb-1"></div>
+                                        <span class="text-xs text-gray-400">社区</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-6 h-6 bg-gray-300 rounded-lg mb-1"></div>
+                                        <span class="text-xs text-gray-400">我的</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="font-semibold text-lg mb-1">应用首页</h3>
+                        <p class="text-gray-600 text-sm">个性化推荐、分类导航和冥想统计</p>
+                    </div>
+                </div>
+
+                <!-- 冥想详情页 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="w-full">
+                        <div class="iphone-frame">
+                            <div class="iphone-notch"></div>
+                            <div class="iphone-screen bg-white">
+                                <div class="status-bar">
+                                    <span class="text-gray-800">9:41</span>
+                                    <span class="text-gray-800">••• 5G</span>
+                                </div>
+                                <div class="relative h-56 bg-primary-600">
+                                    <div class="absolute top-3 left-3 w-8 h-8 bg-white/30 rounded-full flex items-center justify-center">
+                                        <div class="w-4 h-4 border-l border-t border-white transform -rotate-45 ml-1"></div>
+                                    </div>
+                                    <div class="absolute top-3 right-3 w-8 h-8 bg-white/30 rounded-full flex items-center justify-center">
+                                        <div class="w-4 h-4 text-white">⋯</div>
+                                    </div>
+                                    <div class="absolute inset-0 flex flex-col justify-center items-center text-white">
+                                        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-2">
+                                            <div class="w-8 h-8 bg-white rounded-full"></div>
+                                        </div>
+                                        <h3 class="text-xl font-bold">专注冥想</h3>
+                                        <p class="text-sm text-white/80">引导式 · 10分钟</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-4">
+                                    <p class="text-gray-600 text-sm mb-6">
+                                        这个冥想练习旨在提升专注力，减少分心，帮助你在工作或学习时保持更高效率的注意力。适合在工作日的上午或面临需要高度集中的任务前进行。
+                                    </p>
+                                    
+                                    <div class="flex items-center justify-between mb-6">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 bg-gray-100 rounded-full mr-3">
+                                                <div class="w-full h-full rounded-full overflow-hidden"></div>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-medium">张教练</h4>
+                                                <p class="text-xs text-gray-500">冥想指导师</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="flex">
+                                                <div class="w-5 h-5 bg-yellow-400 rounded-full"></div>
+                                                <div class="w-5 h-5 bg-yellow-400 rounded-full -ml-1"></div>
+                                                <div class="w-5 h-5 bg-yellow-400 rounded-full -ml-1"></div>
+                                                <div class="w-5 h-5 bg-yellow-400 rounded-full -ml-1"></div>
+                                                <div class="w-5 h-5 bg-gray-200 rounded-full -ml-1"></div>
+                                            </div>
+                                            <span class="text-sm ml-2">4.8</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-6">
+                                        <h4 class="font-medium mb-3">你将获得什么</h4>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-2">
+                                                    <div class="w-3 h-3 bg-primary-500 rounded-full"></div>
+                                                </div>
+                                                <p class="text-sm text-gray-700">提高专注力和注意力</p>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-2">
+                                                    <div class="w-3 h-3 bg-primary-500 rounded-full"></div>
+                                                </div>
+                                                <p class="text-sm text-gray-700">减轻分心和走神</p>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-2">
+                                                    <div class="w-3 h-3 bg-primary-500 rounded-full"></div>
+                                                </div>
+                                                <p class="text-sm text-gray-700">提升工作和学习效率</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-6">
+                                        <h4 class="font-medium mb-3">选择时长</h4>
+                                        <div class="flex space-x-3">
+                                            <div class="flex-1 py-2 bg-gray-100 rounded-lg text-center">
+                                                <span class="text-gray-600">5分钟</span>
+                                            </div>
+                                            <div class="flex-1 py-2 bg-primary-100 rounded-lg text-center">
+                                                <span class="text-primary-700 font-medium">10分钟</span>
+                                            </div>
+                                            <div class="flex-1 py-2 bg-gray-100 rounded-lg text-center">
+                                                <span class="text-gray-600">15分钟</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="w-full py-3 bg-primary-600 text-white font-medium rounded-xl">
+                                        开始冥想
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="font-semibold text-lg mb-1">冥想详情页</h3>
+                        <p class="text-gray-600 text-sm">展示冥想课程详情和开始选项</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-xl p-6 shadow-sm mb-8">
+            <h2 class="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 text-gray-800">7. 用户体验页面</h2>
+            <p class="mb-6">以下是用户在使用应用过程中的关键体验页面：</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
+                <!-- 冥想播放页 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="w-full">
+                        <div class="iphone-frame">
+                            <div class="iphone-notch"></div>
+                            <div class="iphone-screen bg-gradient-to-br from-primary-700 to-primary-900">
+                                <div class="status-bar">
+                                    <span class="text-white">9:41</span>
+                                    <span class="text-white">••• 5G</span>
+                                </div>
+                                <div class="h-full flex flex-col">
+                                    <div class="flex justify-between items-center p-4">
+                                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                            <div class="w-4 h-4 border-t border-l border-white transform -rotate-45 ml-1"></div>
+                                        </div>
+                                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                            <div class="w-4 h-4 text-white">⋯</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                                        <div class="w-40 h-40 bg-white/10 rounded-full flex items-center justify-center mb-10">
+                                            <div class="w-36 h-36 border-2 border-white/30 rounded-full flex items-center justify-center">
+                                                <div class="w-28 h-28 bg-white/20 rounded-full flex items-center justify-center">
+                                                    <div class="w-20 h-20 bg-white/30 rounded-full flex items-center justify-center">
+                                                        <div class="w-4 h-16 bg-white rounded-sm"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <h3 class="text-white text-xl font-bold mb-1">专注冥想</h3>
+                                        <p class="text-white/70 mb-8">引导式 · 10分钟</p>
+                                        
+                                        <div class="w-full mb-6">
+                                            <div class="h-1 bg-white/20 rounded-full mb-2 relative">
+                                                <div class="absolute h-1 bg-white rounded-full" style="width: 30%"></div>
+                                                <div class="absolute w-3 h-3 bg-white rounded-full top-1/2 transform -translate-y-1/2" style="left: 30%"></div>
+                                            </div>
+                                            <div class="flex justify-between text-xs text-white/70">
+                                                <span>3:05</span>
+                                                <span>10:00</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="flex items-center justify-center space-x-6">
+                                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                                <div class="w-6 h-6 border-r-2 border-white transform rotate-180 ml-1"></div>
+                                            </div>
+                                            <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center">
+                                                <div class="w-5 h-10 bg-primary-700 rounded-sm"></div>
+                                            </div>
+                                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                                <div class="w-6 h-6 border-r-2 border-white ml-1"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="p-6 bg-white/10 backdrop-blur-md">
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-white/80 text-sm">音量</span>
+                                            <span class="text-white/80 text-sm">80%</span>
+                                        </div>
+                                        <div class="h-1 bg-white/20 rounded-full mb-6 relative">
+                                            <div class="absolute h-1 bg-white rounded-full" style="width: 80%"></div>
+                                            <div class="absolute w-3 h-3 bg-white rounded-full top-1/2 transform -translate-y-1/2" style="left: 80%"></div>
+                                        </div>
+                                        
+                                        <div class="flex justify-between">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-2">
+                                                    <div class="w-4 h-4 bg-white/60 rounded-full"></div>
+                                                </div>
+                                                <span class="text-white/80 text-sm">背景音乐</span>
+                                            </div>
+                                            <div class="w-10 h-6 bg-primary-500 rounded-full relative">
+                                                <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="font-semibold text-lg mb-1">冥想播放页</h3>
+                        <p class="text-gray-600 text-sm">沉浸式冥想体验，播放控制和进度显示</p>
+                    </div>
+                </div>
+
+                <!-- 个人中心页 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="w-full">
+                        <div class="iphone-frame">
+                            <div class="iphone-notch"></div>
+                            <div class="iphone-screen bg-gray-50">
+                                <div class="status-bar">
+                                    <span class="text-gray-800">9:41</span>
+                                    <span class="text-gray-800">••• 5G</span>
+                                </div>
+                                <div class="app-content overflow-auto">
+                                    <!-- 头部个人信息 -->
+                                    <div class="p-6 bg-gradient-to-r from-primary-500 to-primary-600 rounded-b-3xl mb-6">
+                                        <div class="flex items-center mb-4">
+                                            <div class="w-16 h-16 bg-white rounded-full mr-4 overflow-hidden">
+                                                <div class="w-full h-full bg-gray-200"></div>
+                                            </div>
+                                            <div>
+                                                <h2 class="text-xl font-bold text-white">李明</h2>
+                                                <p class="text-white/80">冥想练习者 · 初级</p>
+                                            </div>
+                                        </div>
+                                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                                            <div class="flex justify-between mb-2">
+                                                <div class="text-center">
+                                                    <h3 class="text-white text-xl font-bold">53</h3>
+                                                    <p class="text-white/70 text-xs">总冥想次数</p>
+                                                </div>
+                                                <div class="text-center">
+                                                    <h3 class="text-white text-xl font-bold">320</h3>
+                                                    <p class="text-white/70 text-xs">总冥想分钟</p>
+                                                </div>
+                                                <div class="text-center">
+                                                    <h3 class="text-white text-xl font-bold">12</h3>
+                                                    <p class="text-white/70 text-xs">最长连续天数</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 冥想进度 -->
+                                    <div class="px-4 mb-6">
+                                        <h3 class="text-lg font-semibold mb-3">本周冥想进度</h3>
+                                        <div class="bg-white rounded-xl p-4 shadow-sm">
+                                            <div class="flex justify-between mb-4">
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-8 h-8 rounded-full bg-primary-500 mb-1 flex items-center justify-center text-white text-xs">一</div>
+                                                    <div class="w-2 h-2 rounded-full bg-primary-500"></div>
+                                                </div>
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-8 h-8 rounded-full bg-primary-500 mb-1 flex items-center justify-center text-white text-xs">二</div>
+                                                    <div class="w-2 h-2 rounded-full bg-primary-500"></div>
+                                                </div>
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-8 h-8 rounded-full bg-primary-500 mb-1 flex items-center justify-center text-white text-xs">三</div>
+                                                    <div class="w-2 h-2 rounded-full bg-primary-500"></div>
+                                                </div>
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-8 h-8 rounded-full bg-primary-500 mb-1 flex items-center justify-center text-white text-xs">四</div>
+                                                    <div class="w-2 h-2 rounded-full bg-primary-500"></div>
+                                                </div>
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-8 h-8 rounded-full bg-primary-500 mb-1 flex items-center justify-center text-white text-xs">五</div>
+                                                    <div class="w-2 h-2 rounded-full bg-primary-500"></div>
+                                                </div>
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-8 h-8 rounded-full bg-gray-200 mb-1 flex items-center justify-center text-gray-500 text-xs">六</div>
+                                                    <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+                                                </div>
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-8 h-8 rounded-full bg-gray-200 mb-1 flex items-center justify-center text-gray-500 text-xs">日</div>
+                                                    <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+                                                </div>
+                                            </div>
+                                            <p class="text-center text-sm text-gray-600">继续保持！本周已完成5天冥想</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 成就 -->
+                                    <div class="px-4 mb-6">
+                                        <div class="flex justify-between items-center mb-3">
+                                            <h3 class="text-lg font-semibold">我的成就</h3>
+                                            <a href="#" class="text-primary-600 text-sm">查看全部</a>
+                                        </div>
+                                        <div class="bg-white rounded-xl p-4 shadow-sm">
+                                            <div class="grid grid-cols-4 gap-3">
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-1">
+                                                        <div class="w-6 h-6 bg-yellow-500 rounded-full"></div>
+                                                    </div>
+                                                    <span class="text-xs text-center">初学者</span>
+                                                </div>
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-1">
+                                                        <div class="w-6 h-6 bg-blue-500 rounded-full"></div>
+                                                    </div>
+                                                    <span class="text-xs text-center">连续5天</span>
+                                                </div>
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-1">
+                                                        <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+                                                    </div>
+                                                    <span class="text-xs text-center">冥想大师</span>
+                                                </div>
+                                                <div class="flex flex-col items-center">
+                                                    <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-1">
+                                                        <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+                                                    </div>
+                                                    <span class="text-xs text-center">更多成就</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 系统设置 -->
+                                    <div class="px-4 mb-10">
+                                        <h3 class="text-lg font-semibold mb-3">设置</h3>
+                                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                                            <div class="flex items-center p-4 border-b border-gray-100">
+                                                <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-4 h-4 bg-purple-500 rounded"></div>
+                                                </div>
+                                                <span class="flex-1">个人信息</span>
+                                                <div class="w-5 h-5 border-t border-r border-gray-400 transform rotate-45"></div>
+                                            </div>
+                                            <div class="flex items-center p-4 border-b border-gray-100">
+                                                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-4 h-4 bg-blue-500 rounded"></div>
+                                                </div>
+                                                <span class="flex-1">通知设置</span>
+                                                <div class="w-5 h-5 border-t border-r border-gray-400 transform rotate-45"></div>
+                                            </div>
+                                            <div class="flex items-center p-4 border-b border-gray-100">
+                                                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-4 h-4 bg-green-500 rounded"></div>
+                                                </div>
+                                                <span class="flex-1">偏好设置</span>
+                                                <div class="w-5 h-5 border-t border-r border-gray-400 transform rotate-45"></div>
+                                            </div>
+                                            <div class="flex items-center p-4">
+                                                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-4 h-4 bg-red-500 rounded"></div>
+                                                </div>
+                                                <span class="flex-1">帮助中心</span>
+                                                <div class="w-5 h-5 border-t border-r border-gray-400 transform rotate-45"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-bar">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-6 h-6 bg-gray-300 rounded-lg mb-1"></div>
+                                        <span class="text-xs text-gray-400">首页</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-6 h-6 bg-gray-300 rounded-lg mb-1"></div>
+                                        <span class="text-xs text-gray-400">探索</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-6 h-6 bg-gray-300 rounded-lg mb-1"></div>
+                                        <span class="text-xs text-gray-400">社区</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-6 h-6 bg-primary-500 rounded-lg mb-1"></div>
+                                        <span class="text-xs text-primary-600 font-medium">我的</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="font-semibold text-lg mb-1">个人中心</h3>
+                        <p class="text-gray-600 text-sm">冥想统计和个人成就展示</p>
+                    </div>
+                </div>
+
+                <!-- 设置页面 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md transition-transform hover:-translate-y-1 hover:shadow-lg">
+                    <div class="w-full">
+                        <div class="iphone-frame">
+                            <div class="iphone-notch"></div>
+                            <div class="iphone-screen bg-gray-50">
+                                <div class="status-bar">
+                                    <span class="text-gray-800">9:41</span>
+                                    <span class="text-gray-800">••• 5G</span>
+                                </div>
+                                <div class="p-4 flex items-center mb-2">
+                                    <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                                        <div class="w-4 h-4 border-l border-t border-gray-600 transform -rotate-45 ml-1"></div>
+                                    </div>
+                                    <h2 class="text-xl font-bold">设置</h2>
+                                </div>
+                                
+                                <div class="app-content overflow-auto pb-20">
+                                    <!-- 账户设置 -->
+                                    <div class="px-4 mb-6">
+                                        <h3 class="text-sm font-medium text-gray-500 mb-2">账户</h3>
+                                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                                            <div class="flex items-center p-4 border-b border-gray-100">
+                                                <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-5 h-5 bg-gray-500 rounded-full"></div>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <span class="font-medium">个人信息</span>
+                                                </div>
+                                                <div class="w-4 h-4 border-t border-r border-gray-400 transform rotate-45"></div>
+                                            </div>
+                                            <div class="flex items-center p-4">
+                                                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-5 h-5 bg-red-500 rounded"></div>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <span class="font-medium">退出登录</span>
+                                                </div>
+                                                <div class="w-4 h-4 border-t border-r border-gray-400 transform rotate-45"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 通知设置 -->
+                                    <div class="px-4 mb-6">
+                                        <h3 class="text-sm font-medium text-gray-500 mb-2">通知</h3>
+                                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                                            <div class="flex items-center justify-between p-4 border-b border-gray-100">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                                        <div class="w-5 h-5 bg-blue-500 rounded"></div>
+                                                    </div>
+                                                    <span class="font-medium">冥想提醒</span>
+                                                </div>
+                                                <div class="w-10 h-6 bg-primary-500 rounded-full relative">
+                                                    <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between p-4">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                                                        <div class="w-5 h-5 bg-purple-500 rounded"></div>
+                                                    </div>
+                                                    <span class="font-medium">冥想成就提醒</span>
+                                                </div>
+                                                <div class="w-10 h-6 bg-primary-500 rounded-full relative">
+                                                    <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 音频设置 -->
+                                    <div class="px-4 mb-6">
+                                        <h3 class="text-sm font-medium text-gray-500 mb-2">音频设置</h3>
+                                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                                            <div class="p-4 border-b border-gray-100">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <div class="flex items-center">
+                                                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                                                            <div class="w-5 h-5 bg-green-500 rounded"></div>
+                                                        </div>
+                                                        <span class="font-medium">背景音乐</span>
+                                                    </div>
+                                                    <div class="w-10 h-6 bg-primary-500 rounded-full relative">
+                                                        <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="ml-11">
+                                                    <div class="flex justify-between mb-1">
+                                                        <span class="text-sm text-gray-500">音量</span>
+                                                        <span class="text-sm text-gray-500">80%</span>
+                                                    </div>
+                                                    <div class="h-1 bg-gray-200 rounded-full relative">
+                                                        <div class="absolute h-1 bg-primary-500 rounded-full" style="width: 80%"></div>
+                                                        <div class="absolute w-3 h-3 bg-primary-600 rounded-full top-1/2 transform -translate-y-1/2" style="left: 80%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between p-4">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                                                        <div class="w-5 h-5 bg-yellow-500 rounded"></div>
+                                                    </div>
+                                                    <span class="font-medium">语音引导</span>
+                                                </div>
+                                                <div class="w-10 h-6 bg-gray-200 rounded-full relative">
+                                                    <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 外观 -->
+                                    <div class="px-4 mb-6">
+                                        <h3 class="text-sm font-medium text-gray-500 mb-2">外观</h3>
+                                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                                            <div class="p-4 border-b border-gray-100">
+                                                <div class="flex items-center mb-3">
+                                                    <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+                                                        <div class="w-5 h-5 bg-indigo-500 rounded"></div>
+                                                    </div>
+                                                    <span class="font-medium">主题</span>
+                                                </div>
+                                                <div class="flex justify-between ml-11">
+                                                    <div class="w-16 h-24 bg-white border-2 border-primary-500 rounded-lg flex flex-col overflow-hidden">
+                                                        <div class="h-1/3 bg-primary-500"></div>
+                                                        <div class="flex-1 bg-white p-1">
+                                                            <div class="w-full h-2 bg-gray-200 rounded mb-1"></div>
+                                                            <div class="w-full h-2 bg-gray-200 rounded"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="w-16 h-24 bg-gray-800 border border-gray-300 rounded-lg flex flex-col overflow-hidden">
+                                                        <div class="h-1/3 bg-gray-700"></div>
+                                                        <div class="flex-1 bg-gray-800 p-1">
+                                                            <div class="w-full h-2 bg-gray-600 rounded mb-1"></div>
+                                                            <div class="w-full h-2 bg-gray-600 rounded"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="w-16 h-24 bg-indigo-50 border border-gray-300 rounded-lg flex flex-col overflow-hidden">
+                                                        <div class="h-1/3 bg-indigo-100"></div>
+                                                        <div class="flex-1 bg-indigo-50 p-1">
+                                                            <div class="w-full h-2 bg-indigo-200 rounded mb-1"></div>
+                                                            <div class="w-full h-2 bg-indigo-200 rounded"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between p-4">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+                                                        <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                                    </div>
+                                                    <span class="font-medium">深色模式</span>
+                                                </div>
+                                                <div class="w-10 h-6 bg-gray-200 rounded-full relative">
+                                                    <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 关于 -->
+                                    <div class="px-4 mb-6">
+                                        <h3 class="text-sm font-medium text-gray-500 mb-2">关于</h3>
+                                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                                            <div class="flex items-center p-4 border-b border-gray-100">
+                                                <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-5 h-5 bg-gray-500 rounded"></div>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <span class="font-medium">隐私政策</span>
+                                                </div>
+                                                <div class="w-4 h-4 border-t border-r border-gray-400 transform rotate-45"></div>
+                                            </div>
+                                            <div class="flex items-center p-4 border-b border-gray-100">
+                                                <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-5 h-5 bg-gray-500 rounded"></div>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <span class="font-medium">用户协议</span>
+                                                </div>
+                                                <div class="w-4 h-4 border-t border-r border-gray-400 transform rotate-45"></div>
+                                            </div>
+                                            <div class="flex items-center p-4">
+                                                <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <div class="w-5 h-5 bg-gray-500 rounded"></div>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <span class="font-medium">版本</span>
+                                                </div>
+                                                <span class="text-gray-500">1.0.0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-gray-100">
+                        <h3 class="font-semibold text-lg mb-1">设置页面</h3>
+                        <p class="text-gray-600 text-sm">应用设置和个人偏好配置</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-xl p-6 shadow-sm mb-8">
+            <h2 class="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 text-gray-800">8. 结语</h2>
+            <p class="mb-4">本原型设计展示了冥想应用的核心功能和用户体验，重点突出：</p>
+            <ul class="list-disc pl-6 space-y-2 mb-6">
+                <li>简洁而优雅的UI设计，营造宁静放松的冥想氛围</li>
+                <li>个性化的用户体验，根据情绪状态和使用习惯推荐内容</li>
+                <li>完整的功能规划，从用户账户到冥想内容再到数据统计</li>
+                <li>清晰的信息架构，确保用户能够轻松找到所需功能</li>
+                <li>考虑用户习惯养成的机制，如连续打卡和成就系统</li>
+                <li>贴心的设置选项，满足不同用户的偏好需求</li>
+            </ul>
+            <p class="text-gray-700">后续开发可以基于此原型进行实现，同时根据用户反馈不断优化应用体验。</p>
+        </section>
+    </div>
+</body>
+</html> 
